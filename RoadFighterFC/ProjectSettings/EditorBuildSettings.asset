@@ -6,14 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/Demi/DemiScene.unity
     guid: 9cc2757a654f82a469f9b66d070d58aa
   - enabled: 1
     path: Assets/katura/katura Scene.unity
     guid: df8bc4c0ffbf65b4f8a0944a6af75f55
+  - enabled: 1
+    path: Assets/0_wattan/WattanScene.unity
+    guid: f798409907eff114eab3d5a20642aae2
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: cfc8c266d0c186340b52420df9f752ef
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 586c62464cc00c340a0a7c0bda59b92a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
