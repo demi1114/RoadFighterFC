@@ -571,6 +571,7 @@ GameObject:
   - component: {fileID: 851168311}
   - component: {fileID: 851168310}
   - component: {fileID: 851168309}
+  - component: {fileID: 851168312}
   m_Layer: 5
   m_Name: LEVEL1Button
   m_TagString: Untagged
@@ -641,7 +642,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 851168310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 851168312}
+        m_TargetAssemblyTypeName: UniversalButton, Assembly-CSharp
+        m_MethodName: TransitionToScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &851168310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +693,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851168307}
   m_CullTransparentMesh: 1
+--- !u!114 &851168312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851168307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238f5f685c5fc9348a18192cedc21a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniversalButton
+  targetSceneName: MainScene
 --- !u!1 &1270529745
 GameObject:
   m_ObjectHideFlags: 0
