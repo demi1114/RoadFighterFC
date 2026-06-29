@@ -47,10 +47,17 @@ public class PlayerController : MonoBehaviour
         return transform.position.x <= -25f || transform.position.x >= 25f;
     }
 
-    // ★追加：最高速度判定
     private bool IsAtMaxSpeed()
     {
         return forwardSpeed >= fastMaxSpeed - 0.1f;
+    }
+
+    private bool CanCrashFromWall()
+    {
+        // スリップ中 or 最高速度中ならクラッシュ
+        if (isSlipping) return true;
+        if (IsAtMaxSpeed()) return true;
+        return false;
     }
 
     private void Start()
@@ -72,7 +79,6 @@ public class PlayerController : MonoBehaviour
             {
                 isCrashed = false;
 
-                // ★完全復帰（超重要）
                 isSlipping = false;
                 slipTimer = 0f;
 
@@ -121,8 +127,8 @@ public class PlayerController : MonoBehaviour
 
             transform.position += transform.forward * forwardSpeed * Time.deltaTime;
 
-            // ★最高速度時のみ壁クラッシュ
-            if (IsHitWall() && IsAtMaxSpeed())
+            // ★スリップ中：壁で即クラッシュ
+            if (IsHitWall())
             {
                 StartCrash();
                 return;
@@ -187,7 +193,7 @@ public class PlayerController : MonoBehaviour
         pos.x = Mathf.Clamp(pos.x, -26f, 26f);
         transform.position = pos;
 
-        // ★通常時も最高速度クラッシュ判定
+        // ★通常時：最高速度時のみ壁クラッシュ
         if (IsHitWall() && IsAtMaxSpeed())
         {
             StartCrash();

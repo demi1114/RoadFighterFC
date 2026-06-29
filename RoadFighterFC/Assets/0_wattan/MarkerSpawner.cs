@@ -14,8 +14,6 @@ public class MarkerSpawner : MonoBehaviour
     [Header("ŠJŽnˆÊ’u")]
     public Vector3 startPosition = new Vector3(0f, 1f, 100f);
 
-    private float slipTiltDirection = 0f; // -1 or 1
-
     void Start()
     {
         for (int i = 0; i < markerCount; i++)
