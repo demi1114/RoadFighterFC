@@ -249,13 +249,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   baseSpeed: 50
   forwardSpeed: 50
-  sideSpeed: 50
+  sideSpeed: 25
   fastAcceleration: 100
   slowAcceleration: 50
-  fastMaxSpeed: 400
-  slowMaxSpeed: 200
+  fastMaxSpeed: 75
+  slowMaxSpeed: 50
   deceleration: 150
-  slipDuration: 2
+  slipDuration: 1.5
+  crashDuration: 3
 --- !u!54 &302755334
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -521,6 +522,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &878179488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 878179489}
+  - component: {fileID: 878179490}
+  m_Layer: 0
+  m_Name: CrashMakerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &878179489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878179488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &878179490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878179488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf4a21e9bbfa5a4f90b46ab5c9e3a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerPrefab: {fileID: 4936174027060750183, guid: 232d5f18dffac0044a0d4e5ae32e0c0e, type: 3}
+  markerCount: 50
+  spacing: 100
+  startPosition: {x: 10, y: 1, z: 100}
 --- !u!1 &1296162266
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +581,7 @@ GameObject:
   - component: {fileID: 1296162268}
   - component: {fileID: 1296162267}
   m_Layer: 0
-  m_Name: MarkerSpawner
+  m_Name: SlipMarkerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,8 +600,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerPrefab: {fileID: 5452654708292437978, guid: 696bf83ae877c7741b68ccbc9d427be5, type: 3}
-  markerCount: 20
-  spacing: 100
+  markerCount: 50
+  spacing: 150
+  startPosition: {x: 0, y: 1, z: 100}
 --- !u!4 &1296162268
 Transform:
   m_ObjectHideFlags: 0
@@ -654,13 +704,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025497096}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 30, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 302755332}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2025497100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,3 +763,4 @@ SceneRoots:
   - {fileID: 777188123}
   - {fileID: 302755332}
   - {fileID: 1296162268}
+  - {fileID: 878179489}

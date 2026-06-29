@@ -26,8 +26,23 @@ public class PlayerController : MonoBehaviour
     [Header("スリップ設定")]
     public float slipDuration = 2f;
 
+    [Header("クラッシュ設定")]
+    public float crashDuration = 3f;
+
+    private bool isCrashed = false;
+    private float crashTimer = 0f;
+
     private bool isSlipping = false;
     private float slipTimer = 0f;
+
+    private float slipTiltDirection = 0f; // -1 or 1
+
+    public enum PlayerState
+    {
+        Normal,
+        Slip,
+        Crash
+    }
 
     private void Start()
     {
@@ -36,16 +51,51 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isCrashed)
+        {
+            crashTimer -= Time.deltaTime;
+
+            if (crashTimer <= 0f)
+            {
+                isCrashed = false;
+
+                // 復帰時に通常速度へ
+                forwardSpeed = baseSpeed;
+            }
+
+            return;
+        }
+
         if (isSlipping)
         {
-            slipTimer -= Time.deltaTime;
+            float input = 0f;
 
+            if (Keyboard.current != null)
+            {
+                if (Keyboard.current.aKey.isPressed) input = -1f;
+                if (Keyboard.current.dKey.isPressed) input = 1f;
+            }
+
+            if (Gamepad.current != null)
+            {
+                if (Gamepad.current.dpad.left.isPressed) input = -1f;
+                if (Gamepad.current.dpad.right.isPressed) input = 1f;
+            }
+
+            // 逆方向入力で立て直し
+            if (input == -slipTiltDirection)
+            {
+                RecoverFromSlip();
+            }
+
+            slipTimer -= Time.deltaTime;
             if (slipTimer <= 0f)
             {
                 isSlipping = false;
+                transform.rotation = Quaternion.identity;
             }
 
-            // スリップ中は前進だけ
+            // 前進だけは継続
             transform.position += transform.forward * forwardSpeed * Time.deltaTime;
             return;
         }
@@ -103,11 +153,27 @@ public class PlayerController : MonoBehaviour
 
         transform.position += move;
     }
+
+    private void RecoverFromSlip()
+    {
+        isSlipping = false;
+
+        // 回転を戻す
+        transform.rotation = Quaternion.identity;
+
+        // 通常速度へ戻す
+        forwardSpeed = baseSpeed;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("SlipObstacle"))
         {
             StartSlip();
+        }
+
+        if (other.CompareTag("CrashObstacle"))
+        {
+            StartCrash();
         }
     }
 
@@ -116,7 +182,27 @@ public class PlayerController : MonoBehaviour
         isSlipping = true;
         slipTimer = slipDuration;
 
-        // 通常速度まで減速
         forwardSpeed = baseSpeed;
+
+        // どちらに傾くか決める
+        slipTiltDirection = Random.value < 0.5f ? -1f : 1f;
+
+        transform.rotation = Quaternion.Euler(
+            0f,
+            slipTiltDirection * 45f,
+            0f
+        );
+    }
+
+    private void StartCrash()
+    {
+        if (isCrashed)
+            return;
+
+        isCrashed = true;
+        crashTimer = crashDuration;
+
+        // 即停止
+        forwardSpeed = 0f;
     }
 }
