@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour
     [Header("減速度")]
     public float deceleration = 150f;
 
+    [Header("スリップ設定")]
+    public float slipDuration = 2f;
+
+    private bool isSlipping = false;
+    private float slipTimer = 0f;
+
     private void Start()
     {
         forwardSpeed = baseSpeed;
@@ -30,6 +36,20 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isSlipping)
+        {
+            slipTimer -= Time.deltaTime;
+
+            if (slipTimer <= 0f)
+            {
+                isSlipping = false;
+            }
+
+            // スリップ中は前進だけ
+            transform.position += transform.forward * forwardSpeed * Time.deltaTime;
+            return;
+        }
+
         bool fastBoost =
             (Mouse.current != null && Mouse.current.leftButton.isPressed) ||
             (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed);
@@ -82,5 +102,21 @@ public class PlayerController : MonoBehaviour
         move += transform.right * horizontal * sideSpeed * Time.deltaTime;
 
         transform.position += move;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("SlipObstacle"))
+        {
+            StartSlip();
+        }
+    }
+
+    private void StartSlip()
+    {
+        isSlipping = true;
+        slipTimer = slipDuration;
+
+        // 通常速度まで減速
+        forwardSpeed = baseSpeed;
     }
 }
