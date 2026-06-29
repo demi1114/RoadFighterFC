@@ -44,7 +44,13 @@ public class PlayerController : MonoBehaviour
 
     private bool IsHitWall()
     {
-        return transform.position.x <= -25.5f || transform.position.x >= 25.5f;
+        return transform.position.x <= -25f || transform.position.x >= 25f;
+    }
+
+    // ★追加：最高速度判定
+    private bool IsAtMaxSpeed()
+    {
+        return forwardSpeed >= fastMaxSpeed - 0.1f;
     }
 
     private void Start()
@@ -55,7 +61,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // ===== クラッシュ中 =====
+        // =====================
+        // クラッシュ中
+        // =====================
         if (isCrashed)
         {
             crashTimer -= Time.deltaTime;
@@ -64,7 +72,7 @@ public class PlayerController : MonoBehaviour
             {
                 isCrashed = false;
 
-                // ★完全復帰処理（ここが重要）
+                // ★完全復帰（超重要）
                 isSlipping = false;
                 slipTimer = 0f;
 
@@ -77,7 +85,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // ===== スリップ中 =====
+        // =====================
+        // スリップ中
+        // =====================
         if (isSlipping)
         {
             float input = 0f;
@@ -109,10 +119,10 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            // 前進（ここで速度が0なら詰む原因になる）
             transform.position += transform.forward * forwardSpeed * Time.deltaTime;
 
-            if (IsHitWall())
+            // ★最高速度時のみ壁クラッシュ
+            if (IsHitWall() && IsAtMaxSpeed())
             {
                 StartCrash();
                 return;
@@ -121,7 +131,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // ===== 通常時 =====
+        // =====================
+        // 通常時
+        // =====================
         bool fastBoost =
             (Mouse.current != null && Mouse.current.leftButton.isPressed) ||
             (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed);
@@ -174,6 +186,13 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, -26f, 26f);
         transform.position = pos;
+
+        // ★通常時も最高速度クラッシュ判定
+        if (IsHitWall() && IsAtMaxSpeed())
+        {
+            StartCrash();
+            return;
+        }
     }
 
     private void RecoverFromSlip()
