@@ -247,13 +247,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd598a5562092c4db6319d7c782be49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  baseSpeed: 50
+  normalBaseSpeed: 50
+  slipBaseSpeed: 25
   forwardSpeed: 50
   sideSpeed: 25
   fastAcceleration: 100
   slowAcceleration: 50
-  fastMaxSpeed: 75
-  slowMaxSpeed: 50
+  fastMaxSpeed: 150
+  slowMaxSpeed: 75
   deceleration: 150
   slipDuration: 1.5
   crashDuration: 3
