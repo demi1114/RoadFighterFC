@@ -4,7 +4,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("通常速度")]
-    public float baseSpeed = 50f;
+    public float normalBaseSpeed = 50f;
+
+    [Header("スリップ時速度")]
+    public float slipBaseSpeed = 25f;
+
+    private float baseSpeed;
 
     [Header("現在速度")]
     public float forwardSpeed;
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        baseSpeed = normalBaseSpeed;
         forwardSpeed = baseSpeed;
     }
 
@@ -80,22 +86,24 @@ public class PlayerController : MonoBehaviour
             {
                 if (Gamepad.current.dpad.left.isPressed) input = -1f;
                 if (Gamepad.current.dpad.right.isPressed) input = 1f;
+                if (Gamepad.current.leftStick.left.isPressed) input = -1f;
+                if (Gamepad.current.leftStick.right.isPressed) input = 1f;
             }
 
-            // 逆方向入力で立て直し
             if (input == -slipTiltDirection)
             {
                 RecoverFromSlip();
+                return;
             }
 
             slipTimer -= Time.deltaTime;
+
             if (slipTimer <= 0f)
             {
-                isSlipping = false;
-                transform.rotation = Quaternion.identity;
+                RecoverFromSlip();
+                return;
             }
 
-            // 前進だけは継続
             transform.position += transform.forward * forwardSpeed * Time.deltaTime;
             return;
         }
@@ -158,10 +166,11 @@ public class PlayerController : MonoBehaviour
     {
         isSlipping = false;
 
-        // 回転を戻す
         transform.rotation = Quaternion.identity;
 
-        // 通常速度へ戻す
+        // 通常速度に戻す
+        baseSpeed = normalBaseSpeed;
+
         forwardSpeed = baseSpeed;
     }
     private void OnTriggerEnter(Collider other)
@@ -182,16 +191,14 @@ public class PlayerController : MonoBehaviour
         isSlipping = true;
         slipTimer = slipDuration;
 
+        // スリップ中は低速
+        baseSpeed = slipBaseSpeed;
+
         forwardSpeed = baseSpeed;
 
-        // どちらに傾くか決める
         slipTiltDirection = Random.value < 0.5f ? -1f : 1f;
 
-        transform.rotation = Quaternion.Euler(
-            0f,
-            slipTiltDirection * 45f,
-            0f
-        );
+        transform.rotation = Quaternion.Euler(0f, slipTiltDirection * 45f, 0f);
     }
 
     private void StartCrash()
