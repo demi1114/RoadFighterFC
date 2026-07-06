@@ -226,6 +226,16 @@ public class PlayerController : MonoBehaviour
         {
             StartCrash();
         }
+
+        if (other.CompareTag("FuelTruck"))
+        {
+            if (fuelManager != null)
+            {
+                fuelManager.AddFuel(7f);
+            }
+
+            Destroy(other.gameObject);
+        }
     }
 
     private void StartSlip()
