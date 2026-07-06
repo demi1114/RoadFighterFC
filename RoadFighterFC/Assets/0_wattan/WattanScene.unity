@@ -729,7 +729,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FuelManager
   maxFuel: 100
   currentFuel: 0
-  fuelDecreaseRate: 0.1
+  fuelDecreaseRate: 0.5
+  score: 0
   sceneName: GameScene
 --- !u!4 &1419998352
 Transform:
