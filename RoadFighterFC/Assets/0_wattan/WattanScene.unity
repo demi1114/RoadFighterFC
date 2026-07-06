@@ -681,7 +681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerPrefab: {fileID: 5452654708292437978, guid: 696bf83ae877c7741b68ccbc9d427be5, type: 3}
   markerCount: 50
-  spacing: 150
+  spacing: 100
   startPosition: {x: 0, y: 1, z: 100}
 --- !u!4 &1296162268
 Transform:
@@ -729,7 +729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FuelManager
   maxFuel: 100
   currentFuel: 0
-  fuelDecreaseRate: 0.05
+  fuelDecreaseRate: 0.1
   sceneName: GameScene
 --- !u!4 &1419998352
 Transform:
