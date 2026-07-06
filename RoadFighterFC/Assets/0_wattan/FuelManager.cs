@@ -17,9 +17,6 @@ public class FuelManager : MonoBehaviour
 
     private bool isGameOver = false;
 
-    // ★追加：クラッシュ中フラグ
-    public bool isCrashed = false;
-
     void Start()
     {
         currentFuel = maxFuel;
@@ -29,25 +26,44 @@ public class FuelManager : MonoBehaviour
     {
         if (isGameOver) return;
 
-        // ★クラッシュ中は燃料減らさない
-        if (!isCrashed)
-        {
-            currentFuel -= fuelDecreaseRate * Time.deltaTime;
-            currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
-        }
+        // 燃料を時間経過で減少
+        currentFuel -= fuelDecreaseRate * Time.deltaTime;
+        currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
+        // 燃料切れ
         if (currentFuel <= 0f)
         {
             GameOver();
         }
     }
 
+    /// <summary>
+    /// 燃料を追加
+    /// </summary>
     public void AddFuel(float amount)
     {
         if (isGameOver) return;
 
         currentFuel += amount;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+    }
+
+    /// <summary>
+    /// クラッシュ時の燃料ペナルティ
+    /// </summary>
+    public void CrashPenalty(float amount = 5f)
+    {
+        if (isGameOver) return;
+
+        currentFuel -= amount;
+        currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+
+        Debug.Log($"クラッシュ！燃料 -{amount}");
+
+        if (currentFuel <= 0f)
+        {
+            GameOver();
+        }
     }
 
     void GameOver()
