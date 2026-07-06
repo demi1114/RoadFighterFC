@@ -20,34 +20,42 @@ public class FuelManager : MonoBehaviour
 
     private bool isGameOver = false;
 
-    // 燃料の整数値を記録（スコア加算用）
     private int previousFuelInt;
 
     void Start()
     {
         currentFuel = maxFuel;
         previousFuelInt = Mathf.FloorToInt(currentFuel);
+
+        Debug.Log($"開始時 燃料 : {previousFuelInt}");
+        Debug.Log($"開始時 スコア : {score}");
     }
 
     void Update()
     {
         if (isGameOver) return;
 
-        // 時間経過で燃料減少
+        // 燃料減少
         currentFuel -= fuelDecreaseRate * Time.deltaTime;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
-        // 燃料が1減るごとに50点加算
         int currentFuelInt = Mathf.FloorToInt(currentFuel);
 
+        // ★燃料が減った瞬間
         if (currentFuelInt < previousFuelInt)
         {
             int diff = previousFuelInt - currentFuelInt;
-            score += diff * 50;
+
             previousFuelInt = currentFuelInt;
+
+            for (int i = 0; i < diff; i++)
+            {
+                score += 50;
+            }
+
+            Debug.Log($"燃料 : {currentFuelInt} / スコア : {score}");
         }
 
-        // 燃料切れ
         if (currentFuel <= 0f)
         {
             GameOver();
@@ -55,7 +63,7 @@ public class FuelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 燃料を追加（補給車）
+    /// 補給車
     /// </summary>
     public void AddFuel(float amount)
     {
@@ -64,12 +72,13 @@ public class FuelManager : MonoBehaviour
         currentFuel += amount;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
-        // スコアは増やさず基準だけ更新
         previousFuelInt = Mathf.FloorToInt(currentFuel);
+
+        Debug.Log($"補給！燃料 : {previousFuelInt} / スコア : {score}");
     }
 
     /// <summary>
-    /// クラッシュ時の燃料ペナルティ
+    /// クラッシュ
     /// </summary>
     public void CrashPenalty(float amount = 5f)
     {
@@ -78,10 +87,9 @@ public class FuelManager : MonoBehaviour
         currentFuel -= amount;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
-        // クラッシュではスコアは加算しない
         previousFuelInt = Mathf.FloorToInt(currentFuel);
 
-        Debug.Log($"クラッシュ！燃料 -{amount}");
+        Debug.Log($"クラッシュ！燃料 : {previousFuelInt} / スコア : {score}");
 
         if (currentFuel <= 0f)
         {
