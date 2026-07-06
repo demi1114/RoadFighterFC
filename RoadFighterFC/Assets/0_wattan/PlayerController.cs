@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     private float slipTiltDirection = 0f;
 
+    private FuelManager fuelManager;
+
     private bool IsHitWall()
     {
         return transform.position.x <= -25f || transform.position.x >= 25f;
@@ -64,6 +66,9 @@ public class PlayerController : MonoBehaviour
     {
         baseSpeed = normalBaseSpeed;
         forwardSpeed = baseSpeed;
+
+        // FuelManager‚ðŽæ“¾
+        fuelManager = FindFirstObjectByType<FuelManager>();
     }
 
     private void Update()
@@ -221,6 +226,16 @@ public class PlayerController : MonoBehaviour
         {
             StartCrash();
         }
+
+        if (other.CompareTag("FuelTruck"))
+        {
+            if (fuelManager != null)
+            {
+                fuelManager.AddFuel(7f);
+            }
+
+            Destroy(other.gameObject);
+        }
     }
 
     private void StartSlip()
@@ -242,6 +257,12 @@ public class PlayerController : MonoBehaviour
 
         isCrashed = true;
         crashTimer = crashDuration;
+
+        // ƒNƒ‰ƒbƒVƒ…Žž‚É”R—¿‚ð5Œ¸‚ç‚·
+        if (fuelManager != null)
+        {
+            fuelManager.CrashPenalty(5f);
+        }
 
         forwardSpeed = 0f;
     }
