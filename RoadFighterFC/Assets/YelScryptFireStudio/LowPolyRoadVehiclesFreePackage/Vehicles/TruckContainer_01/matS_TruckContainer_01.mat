@@ -186,7 +186,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color01: {r: 1, g: 0, b: 0, a: 1}
+    - _Color01: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     - _Color02: {r: 0.8443396, g: 1, b: 0.8443396, a: 1}
     - _Color03: {r: 1, g: 0.083632976, b: 0, a: 1}
     - _Color04: {r: 1, g: 1, b: 0, a: 1}
@@ -195,7 +195,7 @@ Material:
     - _Color07: {r: 1, g: 0.2158605, b: 0, a: 1}
     - _Color08: {r: 0.04, g: 0.04, b: 0.04, a: 1}
     - _ColorDecals: {r: 0, g: 1, b: 0, a: 1}
-    - _DecalColor: {r: 0, g: 1, b: 0, a: 1}
+    - _DecalColor: {r: 1, g: 0, b: 0.051722527, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MaskColor01: {r: 0, g: 1, b: 0, a: 1}
     - _MaskColor02: {r: 1, g: 0, b: 0, a: 1}
