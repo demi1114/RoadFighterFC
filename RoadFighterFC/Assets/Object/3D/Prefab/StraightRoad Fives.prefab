@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 9209963188091176093}
   - component: {fileID: -8530084143049155239}
   m_Layer: 0
-  m_Name: StraightRoad 2
+  m_Name: StraightRoad Fives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1454,7 +1454,7 @@ GameObject:
   - component: {fileID: 4165132628496527589}
   - component: {fileID: 1022608683425034423}
   m_Layer: 0
-  m_Name: StraightRoad
+  m_Name: LongStraightRoad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
