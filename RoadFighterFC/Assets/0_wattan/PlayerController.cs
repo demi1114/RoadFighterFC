@@ -231,7 +231,11 @@ public class PlayerController : MonoBehaviour
         {
             if (fuelManager != null)
             {
+                // ”R—¿‚ð7‰ñ•œ
                 fuelManager.AddFuel(7f);
+
+                // ƒXƒRƒA‚ð1000‰ÁŽZ
+                fuelManager.score += 1000;
             }
 
             Destroy(other.gameObject);
