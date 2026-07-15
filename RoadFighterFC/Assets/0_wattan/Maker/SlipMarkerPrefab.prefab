@@ -125,5 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RedCarMovement
   activationDistance: 30
-  moveDistance: 10
+  moveDistance: 5
   moveSpeed: 20
