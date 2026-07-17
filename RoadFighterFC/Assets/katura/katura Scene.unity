@@ -380,9 +380,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FuelManager
   maxFuel: 100
   currentFuel: 0
+  currentPlayerZ: 0
   fuelDecreaseRate: 0.01
   score: 0
   sceneName: GameScene
+  goalZ: 1000
 --- !u!4 &729353623
 Transform:
   m_ObjectHideFlags: 0
@@ -1465,7 +1467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1826406652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,7 +1517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1880449704
 RectTransform:
   m_ObjectHideFlags: 0

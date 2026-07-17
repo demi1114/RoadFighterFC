@@ -752,7 +752,7 @@ MonoBehaviour:
   playerIcon: {fileID: 1202306817}
   player: {fileID: 1716571759}
   startPosition: 0
-  goalPosition: 1000
+  goalPosition: 2419
 --- !u!4 &385785190
 Transform:
   m_ObjectHideFlags: 0
@@ -1509,9 +1509,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FuelManager
   maxFuel: 100
   currentFuel: 0
+  currentPlayerZ: 0
   fuelDecreaseRate: 0.5
   score: 0
   sceneName: GameScene
+  goalZ: 1000
 --- !u!4 &807908170
 Transform:
   m_ObjectHideFlags: 0
