@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.06603, y: 1.60904, z: -0.49562}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -124,6 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e39f7f1eee695944b25143832a7dbfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RedCarMovement
-  activationDistance: 30
-  moveDistance: 5
-  moveSpeed: 20
+  activationDistance: 5
+  moveDistance: 3
+  moveSpeed: 5
