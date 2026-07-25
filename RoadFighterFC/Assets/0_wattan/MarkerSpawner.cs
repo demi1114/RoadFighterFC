@@ -1,4 +1,5 @@
 using UnityEngine;
+using static MarkerSpawner;
 
 public class MarkerSpawner : MonoBehaviour
 {
