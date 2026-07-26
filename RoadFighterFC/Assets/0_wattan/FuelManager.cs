@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class FuelManager : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class FuelManager : MonoBehaviour
 
     [Header("現在スコア")]
     public int score = 0;
+
+    [Header("燃料UI")]
+    public TMP_Text fuelText;
+
+    [Header("スコアUI")]
+    public TMP_Text scoreText;
 
     [Header("ゲームオーバー時に再読み込みするシーン名")]
     public string sceneName = "GameScene";
@@ -37,7 +44,8 @@ public class FuelManager : MonoBehaviour
         previousFuelInt = Mathf.FloorToInt(currentFuel);
 
         player = GameObject.FindGameObjectWithTag("Player");
-
+        UpdateFuelUI();
+        UpdateScoreUI();
         Debug.Log($"開始時 燃料 : {previousFuelInt}");
         Debug.Log($"開始時 スコア : {score}");
     }
@@ -55,6 +63,8 @@ public class FuelManager : MonoBehaviour
         currentFuel -= fuelDecreaseRate * Time.deltaTime;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
+        UpdateFuelUI();
+
         int currentFuelInt = Mathf.FloorToInt(currentFuel);
 
         // 燃料が減った分だけスコア加算
@@ -65,6 +75,8 @@ public class FuelManager : MonoBehaviour
             previousFuelInt = currentFuelInt;
 
             score += diff * 50;
+
+            UpdateScoreUI();
 
             Debug.Log($"燃料 : {currentFuelInt} / スコア : {score}");
         }
@@ -80,6 +92,28 @@ public class FuelManager : MonoBehaviour
         if (currentFuel <= 0f)
         {
             GameOver();
+        }
+    }
+
+     // 燃料UI更新
+    void UpdateFuelUI()
+    {
+        if (fuelText == null)
+        {
+            Debug.Log("FuelTextが設定されていません");
+            return;
+        }
+
+        fuelText.text = Mathf.FloorToInt(currentFuel).ToString();
+
+        Debug.Log("UI更新：" + fuelText.text);
+    }
+    // スコアUI更新
+    void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString("D6");
         }
     }
 
@@ -107,6 +141,8 @@ public class FuelManager : MonoBehaviour
 
         score += amount;
 
+        UpdateScoreUI();
+
         Debug.Log($"スコア +{amount}　現在スコア : {score}");
     }
 
@@ -121,6 +157,8 @@ public class FuelManager : MonoBehaviour
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
 
         previousFuelInt = Mathf.FloorToInt(currentFuel);
+
+        UpdateFuelUI();
 
         Debug.Log($"クラッシュ！燃料 : {previousFuelInt} / スコア : {score}");
 
@@ -139,6 +177,8 @@ public class FuelManager : MonoBehaviour
 
         int bonus = Mathf.FloorToInt(currentFuel) * 30;
         score += bonus;
+       
+        UpdateScoreUI();
 
         Debug.Log("===== GOAL =====");
         Debug.Log($"残り燃料 : {Mathf.FloorToInt(currentFuel)}");

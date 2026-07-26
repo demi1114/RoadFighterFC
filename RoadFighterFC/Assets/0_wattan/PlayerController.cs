@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -54,6 +55,9 @@ public class PlayerController : MonoBehaviour
     private float noHitTimer = 0f;
     private bool airplaneSpawned = false;
 
+    [Header("速度UI")]
+    public TMP_Text speedText;
+
     private bool IsHitWall()
     {
         return transform.position.x <= -25f || transform.position.x >= 25f;
@@ -79,6 +83,8 @@ public class PlayerController : MonoBehaviour
 
         // FuelManagerを取得
         fuelManager = FindFirstObjectByType<FuelManager>();
+
+        UpdateSpeedUI();
     }
 
     private void Update()
@@ -164,7 +170,9 @@ public class PlayerController : MonoBehaviour
             if (IsHitWall())
             {
                 StartCrash();
+                UpdateSpeedUI();
                 return;
+
             }
 
             return;
@@ -230,8 +238,10 @@ public class PlayerController : MonoBehaviour
         if (IsHitWall() && IsAtMaxSpeed())
         {
             StartCrash();
+            UpdateSpeedUI();
             return;
         }
+        UpdateSpeedUI();
     }
 
     private void RecoverFromSlip()
@@ -241,6 +251,7 @@ public class PlayerController : MonoBehaviour
 
         baseSpeed = normalBaseSpeed;
         forwardSpeed = baseSpeed;
+        UpdateSpeedUI();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -269,7 +280,7 @@ public class PlayerController : MonoBehaviour
                 fuelManager.AddFuel(7f);
 
                 // スコアを1000加算
-                fuelManager.score += 1000;
+                fuelManager.AddScore(1000);
             }
 
             Destroy(other.gameObject);
@@ -303,5 +314,18 @@ public class PlayerController : MonoBehaviour
         }
 
         forwardSpeed = 0f;
+    }
+    // 速度UI更新
+    private void UpdateSpeedUI()
+    {
+        if (speedText == null) return;
+
+        // 通常速度(10)を0km/h、最高速度(35)を400km/hに変換
+        float t = (forwardSpeed - normalBaseSpeed) / (fastMaxSpeed - normalBaseSpeed);
+        t = Mathf.Clamp01(t);
+
+        int displaySpeed = Mathf.RoundToInt(t * 400f);
+
+        speedText.text = $"{displaySpeed} km/h";
     }
 }
