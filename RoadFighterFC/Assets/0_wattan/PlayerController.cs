@@ -46,8 +46,10 @@ public class PlayerController : MonoBehaviour
     //追加
     [Header("飛行機設定")]
     public GameObject airplanePrefab;
-    public Transform airplaneSpawnPoint;
     public float airplaneSpawnTime = 25f;
+    //プレイヤーの近くに生成
+    public Vector3 airplaneSpawnOffset = new Vector3(0f, 15f, 80f);
+    public float randomSideRange = 20f;
 
     private float noHitTimer = 0f;
     private bool airplaneSpawned = false;
@@ -88,7 +90,13 @@ public class PlayerController : MonoBehaviour
 
             if (noHitTimer >= airplaneSpawnTime)
             {
-                Instantiate(airplanePrefab, airplaneSpawnPoint.position, airplaneSpawnPoint.rotation);
+                float randomX = Random.Range(-randomSideRange, randomSideRange);
+
+                Vector3 spawnPos =transform.position +
+                transform.forward * airplaneSpawnOffset.z +
+                transform.up * airplaneSpawnOffset.y +transform.right * (airplaneSpawnOffset.x + randomX);
+
+                Instantiate(airplanePrefab,spawnPos,transform.rotation);
                 noHitTimer = 0f;　//←25秒ごとに何度も出す　1度のみにするなら airplaneSpawned = true;に変える
             }
         }
