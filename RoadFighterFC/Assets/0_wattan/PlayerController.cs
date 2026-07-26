@@ -43,6 +43,14 @@ public class PlayerController : MonoBehaviour
     private float slipTiltDirection = 0f;
 
     private FuelManager fuelManager;
+    //追加
+    [Header("飛行機設定")]
+    public GameObject airplanePrefab;
+    public Transform airplaneSpawnPoint;
+    public float airplaneSpawnTime = 25f;
+
+    private float noHitTimer = 0f;
+    private bool airplaneSpawned = false;
 
     private bool IsHitWall()
     {
@@ -73,6 +81,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //追加  25秒間障害物に当たらなかったら飛行機を出現
+        if (!airplaneSpawned)
+        {
+            noHitTimer += Time.deltaTime;
+
+            if (noHitTimer >= airplaneSpawnTime)
+            {
+                Instantiate(airplanePrefab, airplaneSpawnPoint.position, airplaneSpawnPoint.rotation);
+                noHitTimer = 0f;　//←25秒ごとに何度も出す　1度のみにするなら airplaneSpawned = true;に変える
+            }
+        }
+
         // =====================
         // クラッシュ中
         // =====================
@@ -217,6 +237,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //追加  障害物に当たったらタイマーをリセット
+        if (other.CompareTag("SlipObstacle") || other.CompareTag("CrashObstacle"))
+        {
+            noHitTimer = 0f;
+        }
+
         if (other.CompareTag("SlipObstacle"))
         {
             StartSlip();

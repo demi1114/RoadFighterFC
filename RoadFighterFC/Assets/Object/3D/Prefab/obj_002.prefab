@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlueCarMovement
   moveDistance: 3
-  moveSpeed: 1
+  moveSpeed: 3
 --- !u!1 &6104584920433771587
 GameObject:
   m_ObjectHideFlags: 0
