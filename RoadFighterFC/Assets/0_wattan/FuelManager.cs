@@ -193,13 +193,17 @@ public class FuelManager : MonoBehaviour
         isGoal = true;
 
         int bonus = Mathf.FloorToInt(currentFuel) * 30;
+
+        Debug.Log("残り燃料：" + currentFuel);
+        Debug.Log("ボーナス：" + bonus);
+
         score += bonus;
-       
+
+        Debug.Log("最終スコア：" + score);
+
         UpdateScoreUI();
 
         Debug.Log("===== GOAL =====");
-        Debug.Log($"残り燃料 : {Mathf.FloorToInt(currentFuel)}");
-        Debug.Log($"燃料ボーナス : +{bonus}");
         Debug.Log($"最終スコア : {score}");
 
         // 全て停止
@@ -219,7 +223,7 @@ public class FuelManager : MonoBehaviour
         clearText.text = "GAME CLEAR";
 
         resultScoreText.text =
-            "SCORE\n" + score.ToString("D6");
+            "\n" + score.ToString("D6");
     }
     //ゲームオーバー
     void GameOver()
