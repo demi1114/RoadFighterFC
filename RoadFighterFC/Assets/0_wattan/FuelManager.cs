@@ -35,6 +35,17 @@ public class FuelManager : MonoBehaviour
     private bool isGoal = false;
 
     private int previousFuelInt;
+    [Header("クリア画面")]
+    public GameObject clearPanel;
+
+    [Header("クリア文字")]
+    public TMP_Text clearText;
+
+    [Header("最終スコア")]
+    public TMP_Text resultScoreText;
+
+    [Header("シーン名")]
+    public string titleSceneName = "TitleScene";
 
     private GameObject player;
 
@@ -48,6 +59,9 @@ public class FuelManager : MonoBehaviour
         UpdateScoreUI();
         Debug.Log($"開始時 燃料 : {previousFuelInt}");
         Debug.Log($"開始時 スコア : {score}");
+
+        if (clearPanel != null)
+            clearPanel.SetActive(false);
     }
 
     void Update()
@@ -185,13 +199,26 @@ public class FuelManager : MonoBehaviour
         Debug.Log($"燃料ボーナス : +{bonus}");
         Debug.Log($"最終スコア : {score}");
 
-        // リザルト画面へ行く場合はここ
-        // SceneManager.LoadScene("ResultScene");
-    }
+        // 全て停止
+        Time.timeScale = 0f;
 
-    /// <summary>
-    /// ゲームオーバー
-    /// </summary>
+        // プレイヤー停止
+        if (player != null)
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (controller != null)
+                controller.enabled = false;
+        }
+
+        // UI表示
+        clearPanel.SetActive(true);
+
+        clearText.text = "GAME CLEAR";
+
+        resultScoreText.text =
+            "SCORE\n" + score.ToString("D6");
+    }
+    //ゲームオーバー
     void GameOver()
     {
         isGameOver = true;
@@ -200,4 +227,31 @@ public class FuelManager : MonoBehaviour
 
         SceneManager.LoadScene(sceneName);
     }
+
+
+    public void Retry()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void BackTitle()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(titleSceneName);
+    }
+
+    public void QuitGame()
+    {
+        Time.timeScale = 1f;
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
 }
+
+
+  
