@@ -25,9 +25,6 @@ public class FuelManager : MonoBehaviour
     [Header("スコアUI")]
     public TMP_Text scoreText;
 
-    [Header("ゲームオーバー時に再読み込みするシーン名")]
-    public string sceneName = "GameScene";
-
     [Header("ゴール地点(Z座標)")]
     public float goalZ = 1000f;
 
@@ -44,8 +41,14 @@ public class FuelManager : MonoBehaviour
     [Header("最終スコア")]
     public TMP_Text resultScoreText;
 
-    [Header("シーン名")]
-    public string titleSceneName = "TitleScene";
+    [Header("リトライするシーン")]
+    [SerializeField] private string retrySceneName;
+
+    [Header("タイトルシーン")]
+    [SerializeField] private string titleSceneName;
+
+    [Header("ゲームオーバー時のシーン")]
+    [SerializeField] private string gameOverSceneName;
 
     private GameObject player;
 
@@ -225,14 +228,16 @@ public class FuelManager : MonoBehaviour
 
         Debug.Log($"ゲームオーバー！最終スコア：{score}");
 
-        SceneManager.LoadScene(sceneName);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(gameOverSceneName);
     }
 
 
     public void Retry()
     {
+        Debug.Log("Retry押された");
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(retrySceneName);
     }
 
     public void BackTitle()
