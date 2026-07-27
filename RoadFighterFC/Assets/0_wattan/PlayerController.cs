@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
     [Header("‘¬“xUI")]
     public TMP_Text speedText;
 
+    private Rigidbody rb;
+
     private bool IsHitWall()
     {
         return transform.position.x <= -25f || transform.position.x >= 25f;
@@ -78,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         baseSpeed = normalBaseSpeed;
         forwardSpeed = baseSpeed;
 
@@ -228,7 +231,7 @@ public class PlayerController : MonoBehaviour
 
         move += transform.right * horizontal * sideSpeed * Time.deltaTime;
 
-        transform.position += move;
+        rb.MovePosition(rb.position + move);
 
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, -26f, 26f);
