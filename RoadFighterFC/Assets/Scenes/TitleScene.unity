@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238f5f685c5fc9348a18192cedc21a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalButton
-  targetSceneName: sakaScene
+  targetSceneName: saka
 --- !u!1 &1270529745
 GameObject:
   m_ObjectHideFlags: 0

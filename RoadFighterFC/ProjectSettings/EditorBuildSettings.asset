@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: cfc8c266d0c186340b52420df9f752ef
   - enabled: 1
+    path: Assets/saka/saka.unity
+    guid: f76409ec447a3cb47857ac9292668667
+  - enabled: 0
     path: Assets/Scenes/MainScene.unity
     guid: 586c62464cc00c340a0a7c0bda59b92a
   m_configObjects:
