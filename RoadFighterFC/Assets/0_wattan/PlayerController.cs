@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         UpdateSpeedUI();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //追加  25秒間障害物に当たらなかったら飛行機を出現
         if (!airplaneSpawned)
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            transform.position += transform.forward * forwardSpeed * Time.deltaTime;
+            rb.MovePosition(rb.position + transform.forward * forwardSpeed * Time.deltaTime);
 
             // ★スリップ中：壁で即クラッシュ
             if (IsHitWall())
@@ -231,11 +231,12 @@ public class PlayerController : MonoBehaviour
 
         move += transform.right * horizontal * sideSpeed * Time.deltaTime;
 
-        rb.MovePosition(rb.position + move);
-
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, -26f, 26f);
-        transform.position = pos;
+
+        Vector3 nextPos = rb.position + move;
+        nextPos.x = Mathf.Clamp(nextPos.x, -26f, 26f);
+        rb.MovePosition(nextPos);
 
         // ★通常時：最高速度時のみ壁クラッシュ
         if (IsHitWall() && IsAtMaxSpeed())
