@@ -60,10 +60,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
-    private bool IsHitWall()
-    {
-        return transform.position.x <= -25f || transform.position.x >= 25f;
-    }
 
     private bool IsAtMaxSpeed()
     {
@@ -169,14 +165,7 @@ public class PlayerController : MonoBehaviour
 
             rb.MovePosition(rb.position + transform.forward * forwardSpeed * Time.deltaTime);
 
-            // ★スリップ中：壁で即クラッシュ
-            if (IsHitWall())
-            {
-                StartCrash();
-                UpdateSpeedUI();
-                return;
-
-            }
+ 
 
             return;
         }
@@ -238,14 +227,30 @@ public class PlayerController : MonoBehaviour
         nextPos.x = Mathf.Clamp(nextPos.x, -26f, 26f);
         rb.MovePosition(nextPos);
 
-        // ★通常時：最高速度時のみ壁クラッシュ
-        if (IsHitWall() && IsAtMaxSpeed())
-        {
-            StartCrash();
-            UpdateSpeedUI();
-            return;
-        }
         UpdateSpeedUI();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // スリップ中なら即クラッシュ
+            if (isSlipping)
+            {
+                StartCrash();
+                return;
+            }
+
+            // 最高速度ならクラッシュ
+            if (IsAtMaxSpeed())
+            {
+                StartCrash();
+                return;
+            }
+
+            // それ以外は壁に止まるだけ
+            forwardSpeed = baseSpeed;
+        }
     }
 
     private void RecoverFromSlip()
