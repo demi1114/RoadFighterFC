@@ -25,6 +25,9 @@ public class FuelManager : MonoBehaviour
     [Header("スコアUI")]
     public TMP_Text scoreText;
 
+    [Header("時間UI")]
+    public TMP_Text timeText;
+
     [Header("ゴール地点(Z座標)")]
     public float goalZ = 1000f;
 
@@ -32,14 +35,6 @@ public class FuelManager : MonoBehaviour
     private bool isGoal = false;
 
     private int previousFuelInt;
-    [Header("クリア画面")]
-    public GameObject clearPanel;
-
-    [Header("クリア文字")]
-    public TMP_Text clearText;
-
-    [Header("最終スコア")]
-    public TMP_Text resultScoreText;
 
     [Header("リトライするシーン")]
     [SerializeField] private string retrySceneName;
@@ -51,6 +46,8 @@ public class FuelManager : MonoBehaviour
     [SerializeField] private string gameOverSceneName;
 
     private GameObject player;
+    [Header("経過時間")]
+    private float elapsedTime = 0f;
 
     void Start()
     {
@@ -62,14 +59,15 @@ public class FuelManager : MonoBehaviour
         UpdateScoreUI();
         Debug.Log($"開始時 燃料 : {previousFuelInt}");
         Debug.Log($"開始時 スコア : {score}");
-
-        if (clearPanel != null)
-            clearPanel.SetActive(false);
     }
 
     void Update()
     {
+
         if (isGameOver || isGoal) return;
+
+        elapsedTime += Time.deltaTime;
+        UpdateTimeUI();
 
         if (player != null)
         {
@@ -111,8 +109,18 @@ public class FuelManager : MonoBehaviour
             GameOver();
         }
     }
+    //時間UI更新
+    void UpdateTimeUI()
+    {
+        if (timeText == null) return;
 
-     // 燃料UI更新
+        int minutes = Mathf.FloorToInt(elapsedTime / 60);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60);
+        int milliseconds = Mathf.FloorToInt((elapsedTime - Mathf.Floor(elapsedTime)) * 100);
+
+        timeText.text = $"Time : {minutes:00}:{seconds:00}.{milliseconds:00}";
+    }
+    // 燃料UI更新
     void UpdateFuelUI()
     {
         if (fuelText == null)
@@ -121,7 +129,7 @@ public class FuelManager : MonoBehaviour
             return;
         }
 
-        fuelText.text = Mathf.FloorToInt(currentFuel).ToString();
+        fuelText.text = "残り燃料 : " + Mathf.FloorToInt(currentFuel).ToString();
 
         Debug.Log("UI更新：" + fuelText.text);
     }
@@ -130,7 +138,7 @@ public class FuelManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = score.ToString("D6");
+            scoreText.text = "Score : " + score.ToString("D6");
         }
     }
 
@@ -193,37 +201,24 @@ public class FuelManager : MonoBehaviour
         isGoal = true;
 
         int bonus = Mathf.FloorToInt(currentFuel) * 30;
-
-        Debug.Log("残り燃料：" + currentFuel);
-        Debug.Log("ボーナス：" + bonus);
-
         score += bonus;
 
-        Debug.Log("最終スコア：" + score);
-
-        UpdateScoreUI();
+        PlayerPrefs.SetInt("ResultScore", score);
+        PlayerPrefs.SetFloat("ResultTime", elapsedTime);
+        PlayerPrefs.Save();
 
         Debug.Log("===== GOAL =====");
-        Debug.Log($"最終スコア : {score}");
+        Debug.Log("最終スコア : " + score);
 
-        // 全て停止
-        Time.timeScale = 0f;
+        // スコア保存
+        ResultData.score = score;
 
-        // プレイヤー停止
-        if (player != null)
-        {
-            PlayerController controller = player.GetComponent<PlayerController>();
-            if (controller != null)
-                controller.enabled = false;
-        }
+        // 時間を戻す
+        Time.timeScale = 1f;
 
-        // UI表示
-        clearPanel.SetActive(true);
+        // リザルトシーンへ
+        SceneManager.LoadScene("ResultScene");
 
-        clearText.text = "GAME CLEAR";
-
-        resultScoreText.text =
-            "\n" + score.ToString("D6");
     }
     //ゲームオーバー
     void GameOver()

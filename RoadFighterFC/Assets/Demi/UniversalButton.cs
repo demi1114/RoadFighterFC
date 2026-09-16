@@ -10,9 +10,12 @@ public class UniversalButton : MonoBehaviour
         SceneManager.LoadScene(targetSceneName);
     }
 
-    public void QuitApplication()
+    public void QuitGame()
     {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
+#else
+    Application.Quit();
+#endif
     }
 };

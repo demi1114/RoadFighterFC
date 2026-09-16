@@ -335,6 +335,6 @@ public class PlayerController : MonoBehaviour
 
         int displaySpeed = Mathf.RoundToInt(t * 400f);
 
-        speedText.text = $"{displaySpeed} km/h";
+        speedText.text = $"Speed : {displaySpeed} km/h";
     }
 }

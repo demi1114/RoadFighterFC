@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Demi/DemiScene.unity
     guid: 9cc2757a654f82a469f9b66d070d58aa
-  - enabled: 1
+  - enabled: 0
     path: Assets/katura/katura Scene.unity
     guid: df8bc4c0ffbf65b4f8a0944a6af75f55
-  - enabled: 1
+  - enabled: 0
     path: Assets/0_wattan/WattanScene.unity
     guid: f798409907eff114eab3d5a20642aae2
   - enabled: 1
@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/saka/saka.unity
     guid: f76409ec447a3cb47857ac9292668667
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 58be2cfbe4aa61b41a6d1f27b089c12f
   - enabled: 0
     path: Assets/Scenes/MainScene.unity
     guid: 586c62464cc00c340a0a7c0bda59b92a
